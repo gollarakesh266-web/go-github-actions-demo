@@ -1,0 +1,27 @@
+name: Reusable workflow
+on:
+  workflow_call:
+    inputs:
+      go-version:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubunu-latest
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v4
+
+      - name: setup go-version
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ inputs.go-version }}
+
+      - name: run tests
+        run: go test ./...
+
+      - name: build code
+        run: go build ./... 
+        
+        
