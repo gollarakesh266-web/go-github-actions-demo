@@ -19,3 +19,13 @@ jobs:
         uses: ./.github/actions/go-build
         with:
           go-version: ${{ inputs.go-version }}
+
+      - name: Build Docker image
+        run: docker build -t go-github-actions-demo:${{ github.sha }} .
+
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: go-github-actions-demo:${{ github.sha }}
+          severity: HIGH,CRITICAL
+          exit-code: '1'
