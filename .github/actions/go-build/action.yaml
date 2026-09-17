@@ -1,0 +1,25 @@
+name: Go Build
+
+description: Setup Go, run tests and build the application
+
+inputs:
+  go-version:
+    description: Go version to use
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+
+    - name: Run tests
+      shell: bash
+      run: go test ./...
+
+    - name: Build application
+      shell: bash
+      run: go build ./...
